@@ -1,0 +1,27 @@
+{
+  "name": "auctorizo",
+  "version": "1.0.0",
+  "description": "authorization as a service and middleware for node",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node src/index.js",
+    "test": "mocha --require @babel/register 'src/**/**spec.js'",
+    "test:coverage": "nyc --reporter=html mocha --require @babel/register 'src/**/**spec.js'"
+  },
+  "author": "Archit",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/node": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/register": "^7.6.2",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.1",
+    "nodemon": "^1.19.3",
+    "nyc": "^14.1.1",
+    "sinon": "^7.5.0"
+  },
+  "dependencies": {
+    "dotenv": "^8.1.0"
+  }
+}
