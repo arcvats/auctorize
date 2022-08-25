@@ -1,0 +1,3 @@
+[submodule "auctorize-server"]
+	path = auctorize-server
+	url = git@github.com:arcvats/auctorize-server.git

@@ -1,0 +1,173 @@
+@startuml schema
+
+' options to turn class entity to ER diagram
+hide circle
+skinparam linetype ortho
+
+entity "User" as user {
+    'user details
+    id : int <<PK generated>>
+    uid : string <<unique not null>>
+    email : string <<unique not null>>
+    password : string <<not null>>
+    active : boolean <<not null>> <<default false>>
+    api_access : boolean <<not null>> <<default false>>
+    --
+    'recovery
+    reset_password_token : string
+    reset_password_sent_at : datetime
+    --
+    'remember
+    remember_created_at : datetime
+    --
+    'tracking
+    sign_in_count : integer <<not null>> <<default 0>>
+    current_sign_in_at : datetime
+    last_sign_in_at : datetime
+    current_sign_in_ip : string
+    last_sign_in_ip : string
+    last_modified_by: bigint
+    --
+    'confirm
+    verification_token : string
+    verified_at : datetime
+    verification_sent_at : datetime
+    unverified_email : string
+    --
+    'lock
+    failed_attempts : integer <<not null>> <<default 0>>
+    unlock_token : string
+    locked_at : datetime
+    --
+    'language and timezone
+    timezone : string
+    language : string <<not null>> <<default EN>>
+    --
+    'timestamps
+    updated_at : datetime
+    created_at : datetime
+    deleted_at : datetime
+
+    --
+    'relations
+    organization_id: integer
+    manager_id: bigint
+}
+
+entity "Organization" as organization {
+    id: integer <<PK generated>>
+    uid: string <<unique not null>>
+    name: string <<unique not null>>
+    description: text
+    subdomain: string <<unique>>
+    email: string
+    timezone: string
+    language : string <<not null>> <<default EN>>
+    api_rate_limit: bigint
+    access_token: string <<not null>>
+    last_modified_by: bigint
+    --
+    created_at: datetime
+    updated_at: datetime
+    deleted_at: datetime
+}
+
+entity "Role" as role {
+    id: integer <<PK generated>>
+    uid: string <<unique not null>>
+    name: string <<unique not null>>
+    description: text
+    last_modified_by: bigint
+    --
+    created_at: datetime
+    updated_at: datetime
+    deleted_at: datetime
+    --
+    organization_id: integer
+}
+
+entity "UserRole" as userrole {
+    id: bigint <<PK generated>>
+    role_id: integer
+    user_id: bigint
+    last_modified_by: bigint
+    --
+    created_at: datetime
+    updated_at: datetime
+    deleted_at: datetime
+}
+
+entity "Group" as group {
+    id: integer <<PK generated>>
+    uid: string <<unique not null>>
+    name: string <<not null>>
+    description: text
+    default: boolean <<default false>>
+    last_modified_by: bigint
+    --
+    created_at: datetime
+    updated_at: datetime
+    deleted_at: datetime
+    --
+    organization_id: integer
+}
+
+entity "UserGroup" as usergroup {
+    id: bigint <<PK generated>>
+    user_id: bigint
+    group_id: integer
+    last_modified_by: bigint
+    --
+    created_at: datetime
+    updated_at: datetime
+    deleted_at: datetime
+}
+
+entity "GroupRole" as grouprole {
+    id: bigint <<PK generated>>
+    group_id: integer
+    role_id: integer
+    last_modified_by: bigint
+    --
+    created_at: datetime
+    updated_at: datetime
+    deleted_at: datetime
+} 
+
+entity "Permission" as permission {
+    id: integer <<PK generated>>
+    uid: string <<unique not null>>
+    name: string <<not null>>
+    description: text
+    last_modified_by: bigint
+    --
+    created_at: datetime
+    updated_at: datetime
+    deleted_at: datetime
+}
+
+entity "RolePermission" as rolepermission {
+    id: integer <<PK generated>>
+    role_id: integer
+    permission_id: integer
+    last_modified_by: bigint
+    --
+    created_at: datetime
+    updated_at: datetime
+    deleted_at: datetime
+}
+
+entity "Profile" as 234 {
+
+}
+
+user}|..||organization
+user||..|{userrole
+role||..|{userrole
+organization||..|{group
+organization||..|{role
+user||..|{usergroup
+group||..|{usergroup
+role||..|{rolepermission
+permission||..|{rolepermissione
+@enduml
